@@ -3,16 +3,18 @@ import { queryContentfulPoolsList } from '@/queries/contentful/queryContentfulPo
 import { ContentfulPool } from '@/types/ContentfulPool'
 import { useQuery } from '@apollo/client'
 import { useEffect, useState } from 'react'
+import useActiveChain from "@/hooks/useActiveChain";
 
 export default function useContentfulPoolsList() {
   const [poolsList, setPoolsList] = useState<ContentfulPool[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(false)
+  const { chainId } = useActiveChain()
 
   const { data, loading } = useQuery<{ poolCollection: { items: ContentfulPool[] } }>(
     queryContentfulPoolsList,
     {
       variables: { locale: 'en-US' },
-      client: contentfulClient
+      client: contentfulClient(chainId)
     }
   )
 

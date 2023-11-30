@@ -1,23 +1,29 @@
 import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client'
 import { setContext } from '@apollo/client/link/context'
 import chainConfig from './chain'
-export const apolloClient = new ApolloClient({
-  uri: chainConfig().subgraphs.StakeTogether,
-  ssrMode: typeof window === 'undefined',
-  cache: new InMemoryCache({
-    typePolicies: {
-      Query: {
-        fields: {
-          pool: {
-            keyArgs: ['id', 'delegate_contains']
+
+
+export const apolloClient = (chainId: number) => {
+  const chain = chainConfig(chainId)
+
+  return new ApolloClient({
+    uri: chain.subgraphs.StakeTogether,
+    ssrMode: typeof window === 'undefined',
+    cache: new InMemoryCache({
+      typePolicies: {
+        Query: {
+          fields: {
+            pool: {
+              keyArgs: ['id', 'delegate_contains']
+            }
           }
         }
       }
-    }
-  }),
+    }),
 
-  connectToDevTools: true
-})
+    connectToDevTools: true
+  })
+}
 
 const authLink = setContext((_, { headers }) => {
   return {
@@ -28,13 +34,19 @@ const authLink = setContext((_, { headers }) => {
   }
 })
 
-const httpLink = new HttpLink({
-  uri: chainConfig().subgraphs.ContentFul
-})
+const httpLink = (chainId: number) => {
+  const chain = chainConfig(chainId)
 
-export const contentfulClient = new ApolloClient({
-  link: authLink.concat(httpLink),
-  ssrMode: typeof window === 'undefined',
-  cache: new InMemoryCache(),
-  connectToDevTools: true
-})
+  return new HttpLink({
+    uri: chain.subgraphs.ContentFul
+  })
+}
+
+export const contentfulClient = (chainId: number) => {
+  return new ApolloClient({
+    link: authLink.concat(httpLink(chainId)),
+    ssrMode: typeof window === 'undefined',
+    cache: new InMemoryCache(),
+    connectToDevTools: true
+  })
+}

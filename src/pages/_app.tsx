@@ -34,7 +34,7 @@ const App = ({ Component, pageProps }: AppProps) => {
 
   return (
     <>
-      <ApolloProvider client={apolloClient}>
+      <ApolloProvider client={apolloClient(chainId)}>
         <ThemeProvider theme={lightTheme}>
           <WagmiConfig config={config}>
             <StyleSheetManager shouldForwardProp={isPropValid}>
