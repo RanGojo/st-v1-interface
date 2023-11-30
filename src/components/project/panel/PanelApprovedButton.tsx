@@ -8,6 +8,7 @@ import { PiTrash } from 'react-icons/pi'
 import styled from 'styled-components'
 import Button from '@/components/shared/Button'
 import useProjectDetailModal from '@/hooks/useProjectDetailModal'
+import useActiveChain from "@/hooks/useActiveChain";
 
 type PanelApprovedButtonProps = {
   project: ContentfulPool
@@ -16,7 +17,8 @@ type PanelApprovedButtonProps = {
 }
 
 export default function PanelApprovedButton({ project, projectSelected, openModal }: PanelApprovedButtonProps) {
-  const { contracts } = chain()
+  const { config: chain } = useActiveChain()
+  const { contracts } = chain
   const {
     data: isPoolRegistered,
     isFetching,
