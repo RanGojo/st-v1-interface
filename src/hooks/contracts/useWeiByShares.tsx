@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import chainConfig from '../../config/chain'
 import { useStakeTogetherWeiByShares } from '@/types/Contracts'
 import useActiveChain from "@/hooks/useActiveChain";
 

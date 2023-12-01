@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { useBalance } from 'wagmi'
-import chainConfig from '../../config/chain'
 import useActiveChain from "@/hooks/useActiveChain";
 
 export default function useEthBalanceOf(address?: `0x${string}`) {

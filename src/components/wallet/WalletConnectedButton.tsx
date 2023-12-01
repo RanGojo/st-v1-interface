@@ -1,6 +1,4 @@
 import styled from 'styled-components'
-
-import chainConfig from '@/config/chain'
 import useConnectedAccount from '@/hooks/useConnectedAccount'
 import useEns from '@/hooks/useEns'
 import Image from 'next/image'

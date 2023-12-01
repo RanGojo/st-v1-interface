@@ -14,6 +14,7 @@ import Button from './Button'
 import LottieAnimation from './LottieAnimation'
 import EnsAvatar from './ens/EnsAvatar'
 import EnsName from './ens/EnsName'
+
 type WalletLotteryProps = { poolAddress: `0x${string}` }
 
 export default function WalletLottery({ poolAddress }: WalletLotteryProps) {

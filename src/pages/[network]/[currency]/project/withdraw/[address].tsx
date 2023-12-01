@@ -6,6 +6,8 @@ import { ContentfulPool } from '@/types/ContentfulPool'
 import { MetaTagsPoolDetail } from '@/components/shared/meta/MetaTagsPoolDetail'
 import { contentfulClient } from '@/config/apollo'
 import { queryContentfulPoolByAddress } from '@/queries/contentful/queryContentfulPoolByAddress'
+import chainConfig, { chainConfigByName } from "@/config/chain";
+import { Network } from "@/types/Network";
 
 type WithdrawProps = {
   poolAddress: `0x${string}`
@@ -23,8 +25,13 @@ export default function Withdraw({ poolAddress, poolDetail }: WithdrawProps) {
 
 export const getServerSideProps: GetServerSideProps = async context => {
   const params = context?.params as { address: `0x${string}` } | undefined
+  let chain = chainConfig(Network.Mainnet)
 
-  const { data } = await contentfulClient.query<{ poolCollection: { items: ContentfulPool[] } }>({
+  if (context.params?.network) {
+    chain = chainConfigByName(context.params?.network as string)
+  }
+
+  const { data } = await contentfulClient(chain.chainId).query<{ poolCollection: { items: ContentfulPool[] } }>({
     query: queryContentfulPoolByAddress,
 
     variables: {

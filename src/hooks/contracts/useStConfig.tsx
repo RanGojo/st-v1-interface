@@ -1,13 +1,13 @@
-import chain from '@/config/chain'
-
 import { useStakeTogetherConfig } from '@/types/Contracts'
 import { useEffect, useState } from 'react'
 import { STConfig } from '../../types/STConfig'
+import useActiveChain from "@/hooks/useActiveChain";
 
 export default function useStConfig() {
   const [loading, setLoading] = useState<boolean>(false)
   const [stConfig, setSTConfig] = useState<STConfig | null>(null)
-  const { contracts } = chain()
+  const { config: chain } = useActiveChain()
+  const { contracts } = chain
 
   const { data, isFetching } = useStakeTogetherConfig({
     address: contracts.StakeTogether

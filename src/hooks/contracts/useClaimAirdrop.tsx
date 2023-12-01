@@ -1,4 +1,3 @@
-import chainConfig from '@/config/chain'
 import { useMixpanelAnalytics } from '@/hooks/analytics/useMixpanelAnalytics'
 import useEstimateTxInfo from '@/hooks/useEstimateTxInfo'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'

@@ -1,11 +1,12 @@
 import { useStakeTogetherGetWithdrawBeaconBlock } from '@/types/Contracts'
 import { useEffect, useState } from 'react'
-import chain from '@/config/chain'
 import useBlockCountdown from '../useBlockCountdown'
+import useActiveChain from "@/hooks/useActiveChain";
 
 export default function useGetWithdrawBeaconBlock(walletAddress: `0x${string}` | undefined) {
   const [withdrawBlock, setWithdrawBlock] = useState<bigint>(0n)
-  const { contracts } = chain()
+  const { config: chain } = useActiveChain()
+  const { contracts } = chain
   const { data, isFetching } = useStakeTogetherGetWithdrawBeaconBlock({
     address: contracts.StakeTogether,
     enabled: !!walletAddress,

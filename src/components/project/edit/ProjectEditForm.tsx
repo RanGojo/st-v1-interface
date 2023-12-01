@@ -1,6 +1,6 @@
 import Button from '@/components/shared/Button'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
-import { Switch, Upload, notification } from 'antd'
+import { notification, Switch, Upload } from 'antd'
 import React, { useEffect, useRef, useState } from 'react'
 import {
   FieldErrors,
@@ -13,7 +13,7 @@ import {
 } from 'react-hook-form'
 import { PiCloudArrowUp, PiPencilSimpleLine, PiTrashSimple } from 'react-icons/pi'
 import styled from 'styled-components'
-import type { UploadFile, RcFile, UploadProps } from 'antd/es/upload/interface'
+import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface'
 import type { UploadChangeParam } from 'antd/es/upload'
 import { getBase64, getVideoIdFromUrl } from '@/services/format'
 import YouTube from 'react-youtube'

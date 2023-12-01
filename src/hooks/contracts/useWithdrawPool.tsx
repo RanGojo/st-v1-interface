@@ -13,7 +13,6 @@ import { ethers } from 'ethers'
 import { useEffect, useState } from 'react'
 import { useWaitForTransaction } from 'wagmi'
 import { apolloClient } from '../../config/apollo'
-import chainConfig from '../../config/chain'
 import { queryAccount } from '../../queries/subgraph/queryAccount'
 import { queryPool } from '../../queries/subgraph/queryPool'
 import {
@@ -116,7 +115,7 @@ export default function useWithdrawPool(
 
   useEffect(() => {
     if (isSuccess && withdrawAmount && accountAddress) {
-      apolloClient.refetchQueries({
+      apolloClient(chainId).refetchQueries({
         include: [
           queryAccount,
           queryPool,

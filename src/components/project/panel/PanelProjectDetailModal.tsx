@@ -30,6 +30,7 @@ import LottieAnimation from '@/components/shared/LottieAnimation'
 import successAnimation from '@assets/animations/success-animation.json'
 import useAddPool from '@/hooks/contracts/useAddPool'
 import useRemovePool from '@/hooks/contracts/useRemovePool'
+import useActiveChain from "@/hooks/useActiveChain";
 
 type PanelProjectDetailModalProps = {
   project: ContentfulPool
@@ -48,6 +49,7 @@ export default function PanelProjectDetailModal({
   const { isOpenProjectDetailModal, setProjectDetailModal } = useProjectDetailModal()
   const { poolTypeTranslation } = usePoolTypeTranslation()
   const { t } = useLocaleTranslation()
+  const { chainId } = useActiveChain()
 
   const {
     isLoading: isLoadingTransaction,
@@ -89,7 +91,7 @@ export default function PanelProjectDetailModal({
 
   const handleCloseModal = async () => {
     if (isApproved || isRejected) {
-      await contentfulClient.refetchQueries({
+      await contentfulClient(chainId).refetchQueries({
         include: [queryContentfulPoolsListByStatus]
       })
     }

@@ -1,4 +1,3 @@
-import chainConfig from '@/config/chain'
 import { useStakeTogetherBeaconBalance } from '@/types/Contracts'
 import { useEffect, useState } from 'react'
 import useActiveChain from "@/hooks/useActiveChain";

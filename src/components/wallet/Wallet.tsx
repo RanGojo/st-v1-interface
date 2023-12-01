@@ -1,4 +1,3 @@
-import chainConfig from '@/config/chain'
 import { useMixpanelAnalytics } from '@/hooks/analytics/useMixpanelAnalytics'
 import { useEffect } from 'react'
 import WalletDisconnectedButton from './WalletConnectButton'

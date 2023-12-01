@@ -1,7 +1,6 @@
 import GenericTransactionLoading from '@/components/shared/GenericTransactionLoading'
 import Tabs, { TabsItems } from '@/components/shared/Tabs'
 import { contentfulClient } from '@/config/apollo'
-import chainConfig from '@/config/chain'
 import useContentfulPoolDetails from '@/hooks/contentful/useContentfulPoolDetails'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import useProjectEditModal from '@/hooks/useProjectEditModal'
@@ -38,7 +37,7 @@ export default function ProjectEditModal({ poolDetailUs, account }: ProjectEditM
 
   const router = useRouter()
   const { asPath } = router
-  const { config: chain } = useActiveChain()
+  const { config: chain, chainId } = useActiveChain()
 
   const poolDetailPt = useContentfulPoolDetails({
     poolAddress: poolDetailUs.wallet,
@@ -93,7 +92,6 @@ export default function ProjectEditModal({ poolDetailUs, account }: ProjectEditM
   const projectDescription = watch(language === 'pt' ? 'descriptionPt' : 'descriptionEn')
 
   const { chain: walletChainId } = useNetwork()
-  const { chainId } = chain
   const isWrongNetwork = chainId !== walletChainId?.id
 
   const handleLabelButton = () => {
@@ -142,7 +140,7 @@ export default function ProjectEditModal({ poolDetailUs, account }: ProjectEditM
     resetSignMessage()
     setActiveTab(EditFormTabs.ABOUT)
     reset()
-    contentfulClient.refetchQueries({
+    contentfulClient(chainId).refetchQueries({
       include: [queryContentfulPoolByAddress]
     })
 

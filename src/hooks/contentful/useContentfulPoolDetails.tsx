@@ -5,6 +5,7 @@ import { useQuery } from '@apollo/client'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import useActiveChain from "@/hooks/useActiveChain";
+
 type ContentfulPoolDetailsProps = {
   poolAddress: `0x${string}` | undefined
   locale?: string

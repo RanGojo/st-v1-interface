@@ -1,4 +1,3 @@
-import chain from '@/config/chain'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { truncateAddress } from '@/services/truncate'
 import { ContentfulPool } from '@/types/ContentfulPool'
@@ -20,6 +19,7 @@ import styled from 'styled-components'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import StakeEmptyPoolInfo from './StakeEmptyPoolInfo'
 import { getVideoIdFromUrl } from '@/services/format'
+import useActiveChain from "@/hooks/useActiveChain";
 
 interface StakePoolAboutProps {
   poolDetail: ContentfulPool | null
@@ -28,6 +28,7 @@ interface StakePoolAboutProps {
 
 export default function StakePoolAbout({ poolDetail, loading }: StakePoolAboutProps) {
   const videoId = getVideoIdFromUrl(poolDetail?.video)
+  const { config: chain } = useActiveChain()
 
   const { t } = useLocaleTranslation()
   const isEmpty = !poolDetail || (!poolDetail?.description && !poolDetail?.cover && !videoId)
@@ -73,7 +74,7 @@ export default function StakePoolAbout({ poolDetail, loading }: StakePoolAboutPr
             </Social>
           )}
           {poolDetail?.contract && (
-            <Social href={`${chain().blockExplorer.baseUrl}/address/${poolDetail.contract}`} target='_blank'>
+            <Social href={`${chain.blockExplorer.baseUrl}/address/${poolDetail.contract}`} target='_blank'>
               <Image src={etherscan} alt='etherscan' width={20} height={20} />
               <span>{truncateAddress(poolDetail.contract)}</span>
             </Social>

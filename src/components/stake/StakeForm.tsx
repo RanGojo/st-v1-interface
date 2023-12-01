@@ -1,4 +1,3 @@
-import chainConfig from '@/config/chain'
 import useDepositPool from '@/hooks/contracts/useDepositPool'
 import useWithdrawPool from '@/hooks/contracts/useWithdrawPool'
 import { useWithdrawPoolBalance } from '@/hooks/contracts/useWithdrawPoolBalance'
@@ -32,7 +31,7 @@ import { PiArrowDown, PiArrowLineRight, PiArrowUp, PiQuestion, PiShieldCheckered
 import { formatNumberByLocale } from '../../services/format'
 import WalletBuyEthModal from '../wallet/WalletBuyEthModal'
 import StakeDescriptionCheckout from './StakeDescriptionCheckout'
-import { Tooltip, notification } from 'antd'
+import { notification, Tooltip } from 'antd'
 import StakeWithdrawCounter from './StakeWithdrawCounter'
 import useGetWithdrawBlock from '@/hooks/contracts/useGetWithdrawBlock'
 import useActiveChain from "@/hooks/useActiveChain";

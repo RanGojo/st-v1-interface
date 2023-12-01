@@ -1,4 +1,4 @@
-import { ReactNode, InputHTMLAttributes } from 'react'
+import { InputHTMLAttributes, ReactNode } from 'react'
 import styled from 'styled-components'
 import Loading from './icons/Loading'
 

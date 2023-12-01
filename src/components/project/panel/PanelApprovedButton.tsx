@@ -1,5 +1,4 @@
 import Loading from '@/components/shared/icons/Loading'
-import chain from '@/config/chain'
 import { ContentfulPool } from '@/types/ContentfulPool'
 import { useStakeTogetherPools } from '@/types/Contracts'
 import React, { useEffect } from 'react'

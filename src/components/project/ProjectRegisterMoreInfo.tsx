@@ -1,4 +1,3 @@
-import chainConfig from '@/config/chain'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { ProjectCreateInfo, ProjectLinksToAnalyze } from '@/types/Project'
 import { useEffect } from 'react'

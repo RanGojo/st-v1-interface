@@ -1,6 +1,4 @@
 import { useEffect, useState } from 'react'
-
-import chainConfig from '@/config/chain'
 import useActiveChain from "@/hooks/useActiveChain";
 
 const useBlockCountdown = (targetBlock: number) => {

@@ -13,7 +13,6 @@ import { ethers } from 'ethers'
 import { useEffect, useState } from 'react'
 import { useWaitForTransaction } from 'wagmi'
 import { apolloClient } from '../../config/apollo'
-import chainConfig from '../../config/chain'
 import { queryAccount } from '../../queries/subgraph/queryAccount'
 import { queryPool } from '../../queries/subgraph/queryPool'
 import {
@@ -150,7 +149,7 @@ export default function useDepositPool(
 
   useEffect(() => {
     if (isSuccess && accountAddress) {
-      apolloClient.refetchQueries({
+      apolloClient(chainId).refetchQueries({
         include: [
           queryAccount,
           queryPool,
@@ -179,7 +178,7 @@ export default function useDepositPool(
 
   useEffect(() => {
     if (isError || failedToExecute) {
-      apolloClient.refetchQueries({
+      apolloClient(chainId).refetchQueries({
         include: [queryAccount, queryPool]
       })
       if (notify) {
@@ -191,7 +190,7 @@ export default function useDepositPool(
       }
       setFailedToExecute(false)
     }
-  }, [accountAddress, notify, netDepositAmount, failedToExecute, isError, poolAddress, t])
+  }, [accountAddress, notify, netDepositAmount, failedToExecute, isError, poolAddress, t, chainId])
 
   return {
     deposit,

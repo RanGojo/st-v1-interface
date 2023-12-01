@@ -3,7 +3,6 @@ import { notification } from 'antd'
 import { useEffect, useState } from 'react'
 import { useWaitForTransaction } from 'wagmi'
 import { apolloClient } from '../../config/apollo'
-import chainConfig from '../../config/chain'
 import { queryAccount } from '../../queries/subgraph/queryAccount'
 import { queryPool } from '../../queries/subgraph/queryPool'
 import { usePrepareWithdrawalsWithdraw, useWithdrawalsWithdraw } from '../../types/Contracts'
@@ -70,7 +69,7 @@ export default function useWithdrawalsStwEth(
 
   useEffect(() => {
     if (isSuccess && withdrawAmount && accountAddress) {
-      apolloClient.refetchQueries({
+      apolloClient(chainId).refetchQueries({
         include: [
           queryAccount,
           queryPool,

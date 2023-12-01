@@ -1,4 +1,3 @@
-import chainConfig from '@/config/chain'
 import { globalConfig } from '@/config/global'
 import useGetFaucet from '@/hooks/useGetFaucet'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'

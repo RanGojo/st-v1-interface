@@ -1,4 +1,3 @@
-import chainConfig from '@/config/chain'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { truncateAddress, truncateTimestamp, truncateWei } from '@/services/truncate'
 import { PoolActivity } from '@/types/PoolActivity'

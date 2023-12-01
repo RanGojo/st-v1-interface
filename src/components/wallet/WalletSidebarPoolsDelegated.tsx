@@ -9,7 +9,6 @@ import styled from 'styled-components'
 import { formatNumberByLocale } from '../../services/format'
 import CommunityLogo from '../shared/community/CommunityLogo'
 import CommunityName from '../shared/community/CommunityName'
-import chainConfig from '@/config/chain'
 import useActiveChain from "@/hooks/useActiveChain";
 
 type WalletSideBarPoolsDelegatedProps = {

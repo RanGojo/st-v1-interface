@@ -11,6 +11,7 @@ import Button from '../shared/Button'
 import { ContentfulWithLocale } from '@/types/ContentfulPool'
 import { contentfulClient } from '@/config/apollo'
 import { queryContentfulPoolByAddress } from '@/queries/contentful/queryContentfulPoolByAddress'
+import useActiveChain from "@/hooks/useActiveChain";
 
 type ProjectCreateSuccessProps = {
   formValues: CreateProjectForm
@@ -21,6 +22,7 @@ export default function ProjectCreateSuccess({ formValues, poolDetail }: Project
   const { t } = useLocaleTranslation()
   const { categories } = useContentfulCategoryCollection()
   const { setOpenProjectCreateModal: setCommunityCreateModal } = useProjectCreateModal()
+  const { chainId } = useActiveChain()
 
   const logo = poolDetail?.logo?.url || `data:${formValues.logo?.mimeType};base64,${formValues.logo?.base64}`
 
@@ -43,7 +45,7 @@ export default function ProjectCreateSuccess({ formValues, poolDetail }: Project
       <MessageContainer>{`${t('v2.createProject.successMessages.description')}`}</MessageContainer>
       <SuccessButton
         onClick={() => {
-          contentfulClient.refetchQueries({
+          contentfulClient(chainId).refetchQueries({
             include: [queryContentfulPoolByAddress]
           })
           setCommunityCreateModal(false)

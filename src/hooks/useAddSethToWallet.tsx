@@ -1,4 +1,3 @@
-import chainConfig from '@/config/chain'
 import { useAccount } from 'wagmi'
 import useLocaleTranslation from './useLocaleTranslation'
 import useActiveChain from "@/hooks/useActiveChain";

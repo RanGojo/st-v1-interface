@@ -7,6 +7,7 @@ import { TorusWalletConnectorPlugin } from '@web3auth/torus-wallet-connector-plu
 import { Web3AuthConnector } from '@web3auth/web3auth-wagmi-connector'
 // eslint-disable-next-line import/named
 import { Chain } from 'wagmi'
+
 const name = 'Stake Together'
 const iconUrl = 'https://images.toruswallet.io/web3auth-logo-white.svg'
 
