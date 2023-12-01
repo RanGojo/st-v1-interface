@@ -6,6 +6,7 @@ import StakeControl from '../../../../../components/stake/StakeControl'
 import { contentfulClient } from '@/config/apollo'
 import { ContentfulPool } from '@/types/ContentfulPool'
 import { queryContentfulPoolByAddress } from '@/queries/contentful/queryContentfulPoolByAddress'
+import { chainConfigByName, selectedChainIdVar } from '@/config/chain'
 
 type DepositProps = {
   poolAddress: `0x${string}`
@@ -23,6 +24,10 @@ export default function Deposit({ poolAddress, poolDetail }: DepositProps) {
 
 export const getServerSideProps: GetServerSideProps = async context => {
   const params = context?.params as { address: `0x${string}` } | undefined
+
+  if (context.params?.network) {
+    selectedChainIdVar(chainConfigByName(context.params?.network as string).chainId)
+  }
 
   const { data } = await contentfulClient().query<{ poolCollection: { items: ContentfulPool[] } }>({
     query: queryContentfulPoolByAddress,

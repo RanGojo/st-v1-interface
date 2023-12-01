@@ -3,7 +3,7 @@ import { Metatags } from '@/components/shared/meta/Metatags'
 
 import StakeControl from '@/components/stake/StakeControl'
 import { contentfulClient } from '@/config/apollo'
-import chainConfig, { chainConfigByName } from '@/config/chain'
+import chainConfig, { chainConfigByName, selectedChainIdVar } from '@/config/chain'
 import { queryContentfulPoolByAddress } from '@/queries/contentful/queryContentfulPoolByAddress'
 import { ContentfulPool } from '@/types/ContentfulPool'
 import { GetServerSideProps } from 'next'
@@ -29,6 +29,7 @@ export const getServerSideProps: GetServerSideProps = async context => {
   let chain = chainConfig(Network.Mainnet)
 
   if (context.params?.network) {
+    selectedChainIdVar(chainConfigByName(context.params?.network as string).chainId)
     chain = chainConfigByName(context.params?.network as string)
   }
 
