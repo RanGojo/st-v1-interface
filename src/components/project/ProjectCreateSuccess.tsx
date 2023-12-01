@@ -43,7 +43,7 @@ export default function ProjectCreateSuccess({ formValues, poolDetail }: Project
       <MessageContainer>{`${t('v2.createProject.successMessages.description')}`}</MessageContainer>
       <SuccessButton
         onClick={() => {
-          contentfulClient().refetchQueries({
+          contentfulClient.refetchQueries({
             include: [queryContentfulPoolByAddress]
           })
           setCommunityCreateModal(false)

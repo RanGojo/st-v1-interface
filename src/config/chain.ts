@@ -1,6 +1,6 @@
 import { ethers } from 'ethers'
-import { makeVar } from "@apollo/client";
-import { Network } from "@/types/Network";
+import { makeVar } from '@apollo/client'
+import { Network } from '@/types/Network'
 
 interface BlockExplorerConfig {
   baseUrl: string
@@ -14,7 +14,6 @@ export type ChainConfig = {
   stakeTogetherPool: `0x${string}`
   subgraphs: {
     StakeTogether: string
-    ContentFul: string
   }
   contracts: {
     Airdrop: `0x${string}`
@@ -42,8 +41,7 @@ const configs: ChainConfig[] = [
       StakeTogetherWrapper: '0xB8cfc0BDdcE60b12b3E6aB9A885C498B2C1ee806'
     },
     subgraphs: {
-      StakeTogether: 'https://api.studio.thegraph.com/query/60033/stake-together/version/latest',
-      ContentFul: `https://graphql.contentful.com/content/v1/spaces/${process.env.NEXT_PUBLIC_CONTENTFUL_SPACE}/environments/${process.env.NEXT_PUBLIC_CONTENTFUL_ENVIRONMENT}`
+      StakeTogether: 'https://api.studio.thegraph.com/query/60033/stake-together/version/latest'
     }
   },
   {
@@ -62,8 +60,7 @@ const configs: ChainConfig[] = [
       StakeTogetherWrapper: '0xaf423Cd5b9124d2032fD4Ab80BAd1D3735172B5c'
     },
     subgraphs: {
-      StakeTogether: 'https://api.studio.thegraph.com/query/60033/stake-together-goerli/version/latest',
-      ContentFul: `https://graphql.contentful.com/content/v1/spaces/${process.env.NEXT_PUBLIC_CONTENTFUL_SPACE}/environments/${process.env.NEXT_PUBLIC_CONTENTFUL_ENVIRONMENT}`
+      StakeTogether: 'https://api.studio.thegraph.com/query/60033/stake-together-goerli/version/latest'
     }
   }
 ]

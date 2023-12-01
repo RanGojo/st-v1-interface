@@ -11,7 +11,7 @@ export default function useContentfulCategoryCollection() {
   const { data, loading } = useQuery<{ categoryCollection: { items: ContentFulCategory[] } }>(
     queryContentfulCategoryCollection,
     {
-      client: contentfulClient()
+      client: contentfulClient
     }
   )
 

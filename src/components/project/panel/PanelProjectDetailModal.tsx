@@ -29,7 +29,7 @@ import LottieAnimation from '@/components/shared/LottieAnimation'
 import successAnimation from '@assets/animations/success-animation.json'
 import useAddPool from '@/hooks/contracts/useAddPool'
 import useRemovePool from '@/hooks/contracts/useRemovePool'
-import { contentfulClient } from "@/config/apollo";
+import { contentfulClient } from '@/config/apollo'
 
 type PanelProjectDetailModalProps = {
   project: ContentfulPool
@@ -89,7 +89,7 @@ export default function PanelProjectDetailModal({
 
   const handleCloseModal = async () => {
     if (isApproved || isRejected) {
-      await contentfulClient().refetchQueries({
+      await contentfulClient.refetchQueries({
         include: [queryContentfulPoolsListByStatus]
       })
     }

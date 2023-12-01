@@ -27,7 +27,7 @@ export default function useContentfulPoolDetails({
         walletAddress: poolAddress?.toLocaleLowerCase(),
         locale: requestLocale
       },
-      client: contentfulClient(),
+      client: contentfulClient,
       fetchPolicy: fetchPolicy ? fetchPolicy : 'cache-first',
       skip: !poolAddress
     }

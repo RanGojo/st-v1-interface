@@ -24,7 +24,7 @@ export default function Deposit({ poolAddress, poolDetail }: DepositProps) {
 export const getServerSideProps: GetServerSideProps = async context => {
   const params = context?.params as { address: `0x${string}` } | undefined
 
-  const { data } = await contentfulClient().query<{ poolCollection: { items: ContentfulPool[] } }>({
+  const { data } = await contentfulClient.query<{ poolCollection: { items: ContentfulPool[] } }>({
     query: queryContentfulPoolByAddress,
 
     variables: {
