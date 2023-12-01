@@ -1,4 +1,6 @@
 import { ethers } from 'ethers'
+import { makeVar } from "@apollo/client";
+import { Network } from "@/types/Network";
 
 interface BlockExplorerConfig {
   baseUrl: string
@@ -65,6 +67,8 @@ const configs: ChainConfig[] = [
     }
   }
 ]
+
+export const selectedChainIdVar = makeVar<number>(Network.Mainnet)
 
 export default function chainConfig(chainId: number): ChainConfig {
   const config = configs.find(c => c.chainId === chainId)
