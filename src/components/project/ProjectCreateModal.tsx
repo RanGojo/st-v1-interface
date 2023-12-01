@@ -14,7 +14,6 @@ import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { contentfulClient } from '@/config/apollo'
 import { queryContentfulPoolByAddress } from '@/queries/contentful/queryContentfulPoolByAddress'
 import { ContentfulWithLocale } from '@/types/ContentfulPool'
-import useActiveChain from "@/hooks/useActiveChain";
 
 type CommunityCreateModalProps = {
   account?: `0x${string}`
@@ -28,8 +27,6 @@ export default function ProjectCreateModal({ account, poolDetail }: CommunityCre
   const [hasAgreeTerms, setHasAgreeTerms] = useState(false)
   const [fileList, setFileList] = useState<UploadFile[]>([])
   const isReappliedProject = (poolDetail && poolDetail.status === 'rejected') || false
-  const { chainId } = useActiveChain()
-  const contentfulClientCallback = useCallback(() => contentfulClient(chainId), [chainId])
 
   useEffect(() => {
     if (poolDetail && poolDetail.logo.url && isReappliedProject) {
@@ -87,7 +84,7 @@ export default function ProjectCreateModal({ account, poolDetail }: CommunityCre
           form: createCommunityForm,
           signatureMessage
         })
-        contentfulClientCallback().refetchQueries({
+        contentfulClient().refetchQueries({
           include: [queryContentfulPoolByAddress]
         })
         notification.success({

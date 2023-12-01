@@ -1,6 +1,6 @@
 import { useMixpanelAnalytics } from '@/hooks/analytics/useMixpanelAnalytics'
 import useSettingsCurrency from '@/hooks/useSettingCurrency'
-import { ApolloProvider } from '@apollo/client'
+import { ApolloProvider, useReactiveVar } from '@apollo/client'
 import isPropValid from '@emotion/is-prop-valid'
 import { appWithTranslation } from 'next-i18next'
 import type { AppProps } from 'next/app'
@@ -14,19 +14,14 @@ import { config } from '../config/wagmi'
 import '../styles/reset.css'
 import { lightTheme } from '../styles/theme'
 import { ConfigProvider } from 'antd'
-import chainConfig, { chainConfigByName } from "@/config/chain";
-import { Network } from "@/types/Network";
+import { selectedChainIdVar } from "@/config/chain";
 
 const App = ({ Component, pageProps }: AppProps) => {
   validEnv()
-  let chain = chainConfig(Network.Mainnet)
 
-  if (pageProps?.network) {
-    chain = chainConfigByName(pageProps?.network as string)
-  }
   const router = useRouter()
   const { init: initMixpanel, registerPageView } = useMixpanelAnalytics()
-  const { chainId } = chain
+  const chainId = useReactiveVar(selectedChainIdVar)
   useSettingsCurrency()
   useEffect(() => {
     initMixpanel()
@@ -40,7 +35,7 @@ const App = ({ Component, pageProps }: AppProps) => {
 
   return (
     <>
-      <ApolloProvider client={apolloClient(chainId)}>
+      <ApolloProvider client={apolloClient()}>
         <ThemeProvider theme={lightTheme}>
           <WagmiConfig config={config}>
             <StyleSheetManager shouldForwardProp={isPropValid}>

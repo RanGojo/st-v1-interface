@@ -10,7 +10,7 @@ import { EditProjectForm } from '@/types/Project'
 import { notification } from 'antd'
 import axios from 'axios'
 import { useRouter } from 'next/router'
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import styled from 'styled-components'
 import { useNetwork, useSignMessage, useSwitchNetwork } from 'wagmi'
@@ -104,7 +104,6 @@ export default function ProjectEditModal({ poolDetailUs, account }: ProjectEditM
   const { switchNetworkAsync } = useSwitchNetwork({
     chainId: chainId
   })
-  const contentfulClientCallback = useCallback(() => contentfulClient(chainId), [chainId])
 
   const message = `Stake Together Update - ${poolDetailUs.wallet} `
   const {
@@ -141,7 +140,7 @@ export default function ProjectEditModal({ poolDetailUs, account }: ProjectEditM
     resetSignMessage()
     setActiveTab(EditFormTabs.ABOUT)
     reset()
-    contentfulClientCallback().refetchQueries({
+    contentfulClient().refetchQueries({
       include: [queryContentfulPoolByAddress]
     })
 

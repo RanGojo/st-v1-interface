@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import successAnimation from '@assets/animations/success-animation.json'
 import LottieAnimation from '../shared/LottieAnimation'
@@ -11,7 +11,6 @@ import Button from '../shared/Button'
 import { ContentfulWithLocale } from '@/types/ContentfulPool'
 import { contentfulClient } from '@/config/apollo'
 import { queryContentfulPoolByAddress } from '@/queries/contentful/queryContentfulPoolByAddress'
-import useActiveChain from "@/hooks/useActiveChain";
 
 type ProjectCreateSuccessProps = {
   formValues: CreateProjectForm
@@ -22,8 +21,6 @@ export default function ProjectCreateSuccess({ formValues, poolDetail }: Project
   const { t } = useLocaleTranslation()
   const { categories } = useContentfulCategoryCollection()
   const { setOpenProjectCreateModal: setCommunityCreateModal } = useProjectCreateModal()
-  const { chainId } = useActiveChain()
-  const contentfulClientCallback = useCallback(() => contentfulClient(chainId), [chainId])
 
   const logo = poolDetail?.logo?.url || `data:${formValues.logo?.mimeType};base64,${formValues.logo?.base64}`
 
@@ -46,7 +43,7 @@ export default function ProjectCreateSuccess({ formValues, poolDetail }: Project
       <MessageContainer>{`${t('v2.createProject.successMessages.description')}`}</MessageContainer>
       <SuccessButton
         onClick={() => {
-          contentfulClientCallback().refetchQueries({
+          contentfulClient().refetchQueries({
             include: [queryContentfulPoolByAddress]
           })
           setCommunityCreateModal(false)

@@ -4,7 +4,6 @@ import GenericTransactionLoading from '@/components/shared/GenericTransactionLoa
 import Modal from '@/components/shared/Modal'
 import CommunityLogo from '@/components/shared/community/CommunityLogo'
 import CommunityName from '@/components/shared/community/CommunityName'
-import { contentfulClient } from '@/config/apollo'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import usePoolTypeTranslation from '@/hooks/usePoolTypeTranslation'
 import useProjectDetailModal from '@/hooks/useProjectDetailModal'
@@ -13,7 +12,7 @@ import { ContentfulPool } from '@/types/ContentfulPool'
 import { notification } from 'antd'
 import axios from 'axios'
 import errorAnimation from '@assets/animations/error-animation.json'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FiCopy } from 'react-icons/fi'
 import {
   PiDiscordLogo,
@@ -30,7 +29,7 @@ import LottieAnimation from '@/components/shared/LottieAnimation'
 import successAnimation from '@assets/animations/success-animation.json'
 import useAddPool from '@/hooks/contracts/useAddPool'
 import useRemovePool from '@/hooks/contracts/useRemovePool'
-import useActiveChain from "@/hooks/useActiveChain";
+import { contentfulClient } from "@/config/apollo";
 
 type PanelProjectDetailModalProps = {
   project: ContentfulPool
@@ -49,7 +48,6 @@ export default function PanelProjectDetailModal({
   const { isOpenProjectDetailModal, setProjectDetailModal } = useProjectDetailModal()
   const { poolTypeTranslation } = usePoolTypeTranslation()
   const { t } = useLocaleTranslation()
-  const { chainId } = useActiveChain()
 
   const {
     isLoading: isLoadingTransaction,
@@ -67,7 +65,6 @@ export default function PanelProjectDetailModal({
     prepareTransactionIsError: prepareTransactionIsErrorRemove,
     awaitWalletAction: awaitWalletActionRemove
   } = useRemovePool(project.wallet, isContractPublished)
-  const contentfulClientCallback = useCallback(() => contentfulClient(chainId), [chainId])
 
   useEffect(() => {
     if (isSuccessRemoveTransaction) {
@@ -92,7 +89,7 @@ export default function PanelProjectDetailModal({
 
   const handleCloseModal = async () => {
     if (isApproved || isRejected) {
-      await contentfulClientCallback().refetchQueries({
+      await contentfulClient().refetchQueries({
         include: [queryContentfulPoolsListByStatus]
       })
     }

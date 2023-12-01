@@ -10,7 +10,7 @@ import { queryStakeTogether } from '@/queries/subgraph/queryStakeTogether'
 import { WithdrawType } from '@/types/Withdraw'
 import { notification } from 'antd'
 import { ethers } from 'ethers'
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useWaitForTransaction } from 'wagmi'
 import { apolloClient } from '../../config/apollo'
 import { queryAccount } from '../../queries/subgraph/queryAccount'
@@ -112,11 +112,10 @@ export default function useWithdrawPool(
     setAwaitWalletAction(false)
     setTxHash(undefined)
   }
-  const apolloClientCallback = useCallback(() => apolloClient(chainId), [chainId])
 
   useEffect(() => {
     if (isSuccess && withdrawAmount && accountAddress) {
-      apolloClientCallback().refetchQueries({
+      apolloClient().refetchQueries({
         include: [
           queryAccount,
           queryPool,
@@ -140,7 +139,7 @@ export default function useWithdrawPool(
         setNotify(false)
       }
     }
-  }, [accountAddress, chainId, notify, isSuccess, poolAddress, registerWithdraw, t, withdrawAmount, apolloClientCallback])
+  }, [accountAddress, chainId, notify, isSuccess, poolAddress, registerWithdraw, t, withdrawAmount])
 
   useEffect(() => {
     if (isError) {

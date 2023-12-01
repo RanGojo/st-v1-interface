@@ -1,9 +1,8 @@
 import { useMixpanelAnalytics } from '@/hooks/analytics/useMixpanelAnalytics'
 import { queryDelegationShares } from '@/queries/subgraph/queryDelegatedShares'
 import { notification } from 'antd'
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useWaitForTransaction } from 'wagmi'
-import { apolloClient } from '../../config/apollo'
 import { queryAccount } from '../../queries/subgraph/queryAccount'
 import { queryPool } from '../../queries/subgraph/queryPool'
 
@@ -20,6 +19,7 @@ import { queryPoolsMarketShare } from '@/queries/subgraph/queryPoolsMarketShare'
 import { queryStakeTogether } from '@/queries/subgraph/queryStakeTogether'
 import { usePrepareStakeTogetherWithdrawBeacon, useStakeTogetherWithdrawBeacon } from '@/types/Contracts'
 import useActiveChain from "@/hooks/useActiveChain";
+import { apolloClient } from "@/config/apollo";
 
 export default function useWithdrawValidator(
   withdrawAmount: string,
@@ -39,7 +39,6 @@ export default function useWithdrawValidator(
   const amount = ethers.parseUnits(withdrawAmount.toString(), 18)
 
   const isWithdrawEnabled = enabled && amount > 0n
-  const apolloClientCallback = useCallback(() => apolloClient(chainId), [chainId])
 
   const {
     config,
@@ -94,7 +93,7 @@ export default function useWithdrawValidator(
 
   useEffect(() => {
     if (isSuccess && withdrawAmount && accountAddress) {
-      apolloClientCallback().refetchQueries({
+      apolloClient().refetchQueries({
         include: [
           queryAccount,
           queryPool,
@@ -119,7 +118,7 @@ export default function useWithdrawValidator(
         setNotify(false)
       }
     }
-  }, [accountAddress, apolloClientCallback, chainId, isSuccess, notify, poolAddress, registerWithdraw, t, withdrawAmount])
+  }, [accountAddress, chainId, isSuccess, notify, poolAddress, registerWithdraw, t, withdrawAmount])
 
   useEffect(() => {
     if (isError) {

@@ -1,6 +1,6 @@
 import { queryDelegationShares } from '@/queries/subgraph/queryDelegatedShares'
 import { notification } from 'antd'
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useWaitForTransaction } from 'wagmi'
 import { apolloClient } from '../../config/apollo'
 import { queryAccount } from '../../queries/subgraph/queryAccount'
@@ -66,11 +66,9 @@ export default function useWithdrawalsStwEth(
     setAwaitWalletAction(false)
     setTxHash(undefined)
   }
-  const apolloClientCallback = useCallback(() => apolloClient(chainId), [chainId])
-
   useEffect(() => {
     if (isSuccess && withdrawAmount && accountAddress) {
-      apolloClientCallback().refetchQueries({
+      apolloClient().refetchQueries({
         include: [
           queryAccount,
           queryPool,
@@ -93,7 +91,7 @@ export default function useWithdrawalsStwEth(
         setNotify(false)
       }
     }
-  }, [accountAddress, apolloClientCallback, chainId, isSuccess, notify, t, withdrawAmount])
+  }, [accountAddress, chainId, isSuccess, notify, t, withdrawAmount])
 
   useEffect(() => {
     if (isError) {

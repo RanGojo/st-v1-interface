@@ -8,8 +8,6 @@ import { queryPools } from '../../../../queries/subgraph/queryPools'
 import { PoolSubgraph } from '../../../../types/Pool'
 import { queryStakeTogether } from '@/queries/subgraph/queryStakeTogether'
 import { StakeTogether } from '@/types/StakeTogether'
-import chainConfig, { chainConfigByName } from "@/config/chain";
-import { Network } from "@/types/Network";
 
 type InvestProps = {
   pools: PoolSubgraph[]
@@ -26,20 +24,14 @@ export default function Invest({ pools, stakeTogether }: InvestProps) {
 }
 
 export const getServerSideProps: GetServerSideProps = async context => {
-  let chain = chainConfig(Network.Mainnet)
-
-  if (context.params?.network) {
-    chain = chainConfigByName(context.params?.network as string)
-  }
-
-  const { data } = await apolloClient(chain.chainId).query<{ pools: PoolSubgraph[] }>({
+  const { data } = await apolloClient().query<{ pools: PoolSubgraph[] }>({
     query: queryPools,
     fetchPolicy: 'no-cache'
   })
 
   const pools: PoolSubgraph[] = data.pools
 
-  const { data: stakeTogether } = await apolloClient(chain.chainId).query<{ stakeTogether: StakeTogether }>({
+  const { data: stakeTogether } = await apolloClient().query<{ stakeTogether: StakeTogether }>({
     query: queryStakeTogether,
     fetchPolicy: 'no-cache'
   })

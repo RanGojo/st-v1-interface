@@ -10,7 +10,7 @@ import { queryStakeTogether } from '@/queries/subgraph/queryStakeTogether'
 import { truncateWei } from '@/services/truncate'
 import { notification } from 'antd'
 import { ethers } from 'ethers'
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useWaitForTransaction } from 'wagmi'
 import { apolloClient } from '../../config/apollo'
 import { queryAccount } from '../../queries/subgraph/queryAccount'
@@ -147,11 +147,9 @@ export default function useDepositPool(
     setFailedToExecute(false)
   }
 
-  const apolloClientCallback = useCallback(() => apolloClient(chainId), [chainId])
-
   useEffect(() => {
     if (isSuccess && accountAddress) {
-      apolloClientCallback().refetchQueries({
+      apolloClient().refetchQueries({
         include: [
           queryAccount,
           queryPool,
@@ -176,11 +174,11 @@ export default function useDepositPool(
         setNotify(false)
       }
     }
-  }, [accountAddress, chainId, notify, netDepositAmount, isSuccess, poolAddress, registerDeposit, t, apolloClientCallback])
+  }, [accountAddress, chainId, notify, netDepositAmount, isSuccess, poolAddress, registerDeposit, t])
 
   useEffect(() => {
     if (isError || failedToExecute) {
-      apolloClientCallback().refetchQueries({
+      apolloClient().refetchQueries({
         include: [queryAccount, queryPool]
       })
       if (notify) {
@@ -192,7 +190,7 @@ export default function useDepositPool(
       }
       setFailedToExecute(false)
     }
-  }, [accountAddress, notify, netDepositAmount, failedToExecute, isError, poolAddress, t, chainId, apolloClientCallback])
+  }, [accountAddress, notify, netDepositAmount, failedToExecute, isError, poolAddress, t, chainId])
 
   return {
     deposit,
