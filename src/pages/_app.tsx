@@ -14,13 +14,19 @@ import { config } from '../config/wagmi'
 import '../styles/reset.css'
 import { lightTheme } from '../styles/theme'
 import { ConfigProvider } from 'antd'
-import useActiveChain from "@/hooks/useActiveChain";
+import chainConfig, { chainConfigByName } from "@/config/chain";
+import { Network } from "@/types/Network";
 
 const App = ({ Component, pageProps }: AppProps) => {
   validEnv()
+  let chain = chainConfig(Network.Mainnet)
+
+  if (pageProps?.network) {
+    chain = chainConfigByName(pageProps?.network as string)
+  }
   const router = useRouter()
   const { init: initMixpanel, registerPageView } = useMixpanelAnalytics()
-  const { chainId } = useActiveChain()
+  const { chainId } = chain
   useSettingsCurrency()
   useEffect(() => {
     initMixpanel()
