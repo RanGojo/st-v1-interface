@@ -1,7 +1,7 @@
 import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client'
 import { setContext } from '@apollo/client/link/context'
 import chainConfig, { selectedChainIdVar } from './chain'
-
+import { globalConfig } from './global'
 
 export const apolloClient = () => {
   const chainId = selectedChainIdVar()
@@ -35,20 +35,15 @@ const authLink = setContext((_, { headers }) => {
   }
 })
 
-const httpLink = (chainId: number) => {
-  const chain = chainConfig(chainId)
-
+const httpLink = () => {
   return new HttpLink({
-    uri: chain.subgraphs.ContentFul
+    uri: globalConfig.contentFul
   })
 }
 
-export const contentfulClient = () => {
-  const chainId = selectedChainIdVar()
-  return new ApolloClient({
-    link: authLink.concat(httpLink(chainId)),
-    ssrMode: typeof window === 'undefined',
-    cache: new InMemoryCache(),
-    connectToDevTools: true
-  })
-}
+export const contentfulClient = new ApolloClient({
+  link: authLink.concat(httpLink()),
+  ssrMode: typeof window === 'undefined',
+  cache: new InMemoryCache(),
+  connectToDevTools: true
+})

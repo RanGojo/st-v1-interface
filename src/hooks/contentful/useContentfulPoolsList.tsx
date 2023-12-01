@@ -12,7 +12,7 @@ export default function useContentfulPoolsList() {
     queryContentfulPoolsList,
     {
       variables: { locale: 'en-US' },
-      client: contentfulClient()
+      client: contentfulClient
     }
   )
 

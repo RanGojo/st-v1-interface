@@ -34,7 +34,7 @@ export default function useContentfulProjectListByStatus({
         walletContains: projectAddress || null,
         nameContains: projectName || null
       },
-      client: contentfulClient()
+      client: contentfulClient
     }
   )
 

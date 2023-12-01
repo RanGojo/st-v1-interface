@@ -17,7 +17,7 @@ import { useNetwork, useSignMessage, useSwitchNetwork } from 'wagmi'
 import Modal from '../../shared/Modal'
 import ProjectEditForm from './ProjectEditForm'
 import ProjectEditLinksForm from './ProjectEditLinksForm'
-import useActiveChain from "@/hooks/useActiveChain";
+import useActiveChain from '@/hooks/useActiveChain'
 
 type ProjectEditModalProps = {
   poolDetailUs: ContentfulWithLocale
@@ -140,7 +140,7 @@ export default function ProjectEditModal({ poolDetailUs, account }: ProjectEditM
     resetSignMessage()
     setActiveTab(EditFormTabs.ABOUT)
     reset()
-    contentfulClient().refetchQueries({
+    contentfulClient.refetchQueries({
       include: [queryContentfulPoolByAddress]
     })
 

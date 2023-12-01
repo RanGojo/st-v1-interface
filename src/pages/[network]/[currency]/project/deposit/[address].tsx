@@ -29,7 +29,7 @@ export const getServerSideProps: GetServerSideProps = async context => {
     selectedChainIdVar(chainConfigByName(context.params?.network as string).chainId)
   }
 
-  const { data } = await contentfulClient().query<{ poolCollection: { items: ContentfulPool[] } }>({
+  const { data } = await contentfulClient.query<{ poolCollection: { items: ContentfulPool[] } }>({
     query: queryContentfulPoolByAddress,
 
     variables: {

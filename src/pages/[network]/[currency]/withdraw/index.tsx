@@ -35,7 +35,7 @@ export const getServerSideProps: GetServerSideProps = async context => {
 
   const { stakeTogetherPool } = chain
 
-  const { data } = await contentfulClient().query<{ poolCollection: { items: ContentfulPool[] } }>({
+  const { data } = await contentfulClient.query<{ poolCollection: { items: ContentfulPool[] } }>({
     query: queryContentfulPoolByAddress,
 
     variables: {

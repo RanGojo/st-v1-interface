@@ -84,7 +84,7 @@ export default function ProjectCreateModal({ account, poolDetail }: CommunityCre
           form: createCommunityForm,
           signatureMessage
         })
-        contentfulClient().refetchQueries({
+        contentfulClient.refetchQueries({
           include: [queryContentfulPoolByAddress]
         })
         notification.success({
