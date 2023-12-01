@@ -13,7 +13,7 @@ import { ContentfulPool } from '@/types/ContentfulPool'
 import { notification } from 'antd'
 import axios from 'axios'
 import errorAnimation from '@assets/animations/error-animation.json'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { FiCopy } from 'react-icons/fi'
 import {
   PiDiscordLogo,
@@ -67,6 +67,7 @@ export default function PanelProjectDetailModal({
     prepareTransactionIsError: prepareTransactionIsErrorRemove,
     awaitWalletAction: awaitWalletActionRemove
   } = useRemovePool(project.wallet, isContractPublished)
+  const contentfulClientCallback = useCallback(() => contentfulClient(chainId), [chainId])
 
   useEffect(() => {
     if (isSuccessRemoveTransaction) {
@@ -91,7 +92,7 @@ export default function PanelProjectDetailModal({
 
   const handleCloseModal = async () => {
     if (isApproved || isRejected) {
-      await contentfulClient(chainId).refetchQueries({
+      await contentfulClientCallback().refetchQueries({
         include: [queryContentfulPoolsListByStatus]
       })
     }

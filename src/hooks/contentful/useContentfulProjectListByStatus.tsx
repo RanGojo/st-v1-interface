@@ -2,7 +2,7 @@ import { contentfulClient } from '@/config/apollo'
 import { queryContentfulPoolsListByStatus } from '@/queries/contentful/queryContentfulPoolsListByStatus'
 import { ContentfulPool } from '@/types/ContentfulPool'
 import { useQuery } from '@apollo/client'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import useActiveChain from "@/hooks/useActiveChain";
 
 type useContentfulProjectListByStatusProps = {
@@ -24,6 +24,7 @@ export default function useContentfulProjectListByStatus({
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [loadingFetchMore, setLoadingFetchMore] = useState<boolean>(false)
   const { chainId } = useActiveChain()
+  const contentfulClientCallback = useCallback(() => contentfulClient(chainId), [chainId])
 
   const { data, loading, fetchMore } = useQuery<{ poolCollection: { items: ContentfulPool[] } }>(
     queryContentfulPoolsListByStatus,
@@ -36,7 +37,7 @@ export default function useContentfulProjectListByStatus({
         walletContains: projectAddress || null,
         nameContains: projectName || null
       },
-      client: contentfulClient(chainId)
+      client: contentfulClientCallback()
     }
   )
 

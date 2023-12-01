@@ -3,7 +3,7 @@ import { queryContentfulPoolByAddress } from '@/queries/contentful/queryContentf
 import { ContentfulPool, ContentfulWithLocale } from '@/types/ContentfulPool'
 import { useQuery } from '@apollo/client'
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import useActiveChain from "@/hooks/useActiveChain";
 
 type ContentfulPoolDetailsProps = {
@@ -22,6 +22,7 @@ export default function useContentfulPoolDetails({
   const router = useRouter()
   const requestLocale = locale ? locale : router.locale === 'en' ? 'en-US' : router.locale
   const { chainId } = useActiveChain()
+  const contentfulClientCallback = useCallback(() => contentfulClient(chainId), [chainId])
   const { data, loading } = useQuery<{ poolCollection: { items: ContentfulPool[] } }>(
     queryContentfulPoolByAddress,
     {
@@ -29,7 +30,7 @@ export default function useContentfulPoolDetails({
         walletAddress: poolAddress?.toLocaleLowerCase(),
         locale: requestLocale
       },
-      client: contentfulClient(chainId),
+      client: contentfulClientCallback(),
       fetchPolicy: fetchPolicy ? fetchPolicy : 'cache-first',
       skip: !poolAddress
     }

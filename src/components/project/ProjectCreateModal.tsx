@@ -29,6 +29,7 @@ export default function ProjectCreateModal({ account, poolDetail }: CommunityCre
   const [fileList, setFileList] = useState<UploadFile[]>([])
   const isReappliedProject = (poolDetail && poolDetail.status === 'rejected') || false
   const { chainId } = useActiveChain()
+  const contentfulClientCallback = useCallback(() => contentfulClient(chainId), [chainId])
 
   useEffect(() => {
     if (poolDetail && poolDetail.logo.url && isReappliedProject) {
@@ -86,7 +87,7 @@ export default function ProjectCreateModal({ account, poolDetail }: CommunityCre
           form: createCommunityForm,
           signatureMessage
         })
-        contentfulClient(chainId).refetchQueries({
+        contentfulClientCallback().refetchQueries({
           include: [queryContentfulPoolByAddress]
         })
         notification.success({

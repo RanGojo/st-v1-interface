@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import styled from 'styled-components'
 import successAnimation from '@assets/animations/success-animation.json'
 import LottieAnimation from '../shared/LottieAnimation'
@@ -23,6 +23,7 @@ export default function ProjectCreateSuccess({ formValues, poolDetail }: Project
   const { categories } = useContentfulCategoryCollection()
   const { setOpenProjectCreateModal: setCommunityCreateModal } = useProjectCreateModal()
   const { chainId } = useActiveChain()
+  const contentfulClientCallback = useCallback(() => contentfulClient(chainId), [chainId])
 
   const logo = poolDetail?.logo?.url || `data:${formValues.logo?.mimeType};base64,${formValues.logo?.base64}`
 
@@ -45,7 +46,7 @@ export default function ProjectCreateSuccess({ formValues, poolDetail }: Project
       <MessageContainer>{`${t('v2.createProject.successMessages.description')}`}</MessageContainer>
       <SuccessButton
         onClick={() => {
-          contentfulClient(chainId).refetchQueries({
+          contentfulClientCallback().refetchQueries({
             include: [queryContentfulPoolByAddress]
           })
           setCommunityCreateModal(false)
