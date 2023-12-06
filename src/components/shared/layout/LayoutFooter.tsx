@@ -7,7 +7,7 @@ import useLocaleTranslation from '../../../hooks/useLocaleTranslation'
 export default function LayoutFooter() {
   const date = new Date()
   const { blockExplorer, contracts } = chainConfig()
-  const { websiteUrl, auditUrl } = globalConfig
+  const { websiteUrl } = globalConfig
 
   const { t } = useLocaleTranslation()
 
@@ -22,16 +22,8 @@ export default function LayoutFooter() {
             {t('footer.smartContract')}
           </a>
         </span>
-        <span>
-          <a href={`${auditUrl}`} target='_blank'>
-            {t('footer.audit')}
-          </a>
-        </span>
       </div>
       <div>
-        {/* <a href={`${appUrl}/${i18n.language}`} target='_blank'>
-          {t('footer.app')}
-        </a> */}
         <a href={`${websiteUrl}`} target='_blank'>
           {t('footer.website')}
         </a>

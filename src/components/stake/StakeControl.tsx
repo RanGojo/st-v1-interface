@@ -13,13 +13,10 @@ import useConnectedAccount from '../../hooks/useConnectedAccount'
 import { formatNumberByLocale } from '../../services/format'
 import Tabs, { TabsItems } from '../shared/Tabs'
 import TooltipComponent from '../shared/TooltipComponent'
-import WalletLottery from '../shared/WalletLottery'
 import CommunityLogo from '../shared/community/CommunityLogo'
 import CommunityName from '../shared/community/CommunityName'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
-import LayoutTitle from '../shared/layout/LayoutTitle'
 import { StakeForm } from './StakeForm'
-import StakePoolInfo from './StakePoolInfo'
 
 interface StakeControlProps {
   poolAddress: `0x${string}`
@@ -90,23 +87,9 @@ export default function StakeControl({ poolAddress, type, poolDetail }: StakeCon
   const stakeForm = <StakeForm type={type} accountAddress={account} poolAddress={poolAddress} />
   const tabsItems: TabsItems[] = [
     {
-      key: 'deposit',
-      label: t('deposit'),
-      icon: <EthIcon />,
-      children: stakeForm
-    },
-    {
       key: 'withdraw',
       label: t('withdraw'),
       icon: <WithdrawIcon />,
-      children: stakeForm
-    },
-    {
-      key: 'exchange',
-      label: t('exchange'),
-      tooltip: t('v2.stake.faucetTooltip'),
-      tooltipOpen: tooltipHasOpen,
-      icon: <DexIcon />,
       children: stakeForm
     }
   ]
@@ -119,7 +102,6 @@ export default function StakeControl({ poolAddress, type, poolDetail }: StakeCon
 
   return (
     <Container>
-      <LayoutTitle title={t('v2.pages.deposit.title')} description={t('v2.pages.deposit.description')} />
       <TvlContainer>
         <PoolTitle>
           <div>
@@ -159,30 +141,6 @@ export default function StakeControl({ poolAddress, type, poolDetail }: StakeCon
             <SkeletonLoading height={14} width={100} />
           )}
         </div>
-        <div>
-          <span>
-            <TooltipComponent text={t('v2.stake.rewardsTooltip')} left={126} width={350}>
-              {`${t('generatedRewards')}: `}
-              <QuestionIcon />
-            </TooltipComponent>
-          </span>
-          {!!pool?.totalRewards && !initialLoading ? (
-            <span className='green'>{`${formatNumberByLocale(truncateWei(pool?.totalRewards), locale)} ${t(
-              'lsd.symbol'
-            )} `}</span>
-          ) : (
-            <SkeletonLoading height={14} width={100} />
-          )}
-        </div>
-        <div>
-          <span>
-            <TooltipComponent text={t('v2.stake.apyTooltip')} left={225} width={200}>
-              {`${t('v2.stake.apy')}: `}
-              <QuestionIcon />
-            </TooltipComponent>
-          </span>
-          <span className='green'>{`${apy}%`}</span>
-        </div>
       </TvlContainer>
       <Form>
         <Tabs
@@ -191,34 +149,11 @@ export default function StakeControl({ poolAddress, type, poolDetail }: StakeCon
           onChangeActiveTab={value => handleSwitch(value as string)}
         />
       </Form>
-      <StakePoolInfo
-        poolAddress={poolAddress}
-        poolData={pool}
-        fetchMore={handleLoadMoreMembers}
-        loadMoreLoadingPoolData={loadMoreLoading}
-        initialLoadingPoolData={initialLoading}
-        poolActivities={poolActivities}
-        poolActivitiesLoading={poolActivitiesLoading}
-        poolActivitiesFetchMoreLoading={poolActivitiesFetchMoreLoading}
-        loadMoreActivitiesItems={handleLoadMoreActivity}
-      />
-      <WalletLottery poolAddress={poolAddress} />
     </Container>
   )
 }
 
-const {
-  Container,
-  Form,
-  EthIcon,
-  TvlContainer,
-  QuestionIcon,
-  ShareButton,
-  ShareIcon,
-  PoolTitle,
-  WithdrawIcon,
-  DexIcon
-} = {
+const { Container, Form, TvlContainer, QuestionIcon, ShareButton, ShareIcon, PoolTitle, WithdrawIcon } = {
   Container: styled.div`
     display: grid;
     justify-content: center;

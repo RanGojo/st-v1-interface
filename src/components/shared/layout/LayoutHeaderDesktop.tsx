@@ -1,27 +1,24 @@
+import ProjectCreateModal from '@/components/project/ProjectCreateModal'
 import Wallet from '@/components/wallet/Wallet'
+import useContentfulPoolDetails from '@/hooks/contentful/useContentfulPoolDetails'
+import useConfirmTermsModal from '@/hooks/useConfirmTermsModal'
+import useConnectedAccount from '@/hooks/useConnectedAccount'
+import useResizeView from '@/hooks/useResizeView'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { useEffect } from 'react'
 import { PiCellSignalFull, PiCurrencyEth, PiGift, PiPencilSimpleLine } from 'react-icons/pi'
 import styled from 'styled-components'
 import stLogoDesktop from '../../../../public/assets/stake-together-desk.svg'
 import useActiveRoute from '../../../hooks/useActiveRoute'
 import useLocaleTranslation from '../../../hooks/useLocaleTranslation'
-import useConnectedAccount from '@/hooks/useConnectedAccount'
-import ProjectCreateModal from '@/components/project/ProjectCreateModal'
-import useProjectCreateModal from '@/hooks/useProjectCreateModal'
-import useContentfulPoolDetails from '@/hooks/contentful/useContentfulPoolDetails'
-import ProjectButton from '@/components/project/ProjectButton'
-import useResizeView from '@/hooks/useResizeView'
-import { useEffect } from 'react'
-import useConfirmTermsModal from '@/hooks/useConfirmTermsModal'
 import ConfirmTermsModal from '../ConfirmTermsModal'
 
 export default function LayoutHeader() {
   const { t } = useLocaleTranslation()
   const { isActive } = useActiveRoute()
   const { account, accountIsConnected } = useConnectedAccount()
-  const { setOpenProjectCreateModal } = useProjectCreateModal()
   const { query } = useRouter()
   const { currency, network } = query
   const { poolDetail: poolDetailUs } = useContentfulPoolDetails({
@@ -56,26 +53,9 @@ export default function LayoutHeader() {
               {t('v2.header.invest')}
             </MenuButton>
           </Link>
-          <Link href={`/${network}/${currency}/incentives`}>
-            <MenuButton className={`${isActive('incentives') ? 'active' : ''}`}>
-              <IncentivesIcon /> {t('v2.header.incentives')}
-            </MenuButton>
-          </Link>
-          <Link href={`/${network}/${currency}/gifts`} legacyBehavior>
-            <MenuButton className={`${isActive('gifts') ? 'active' : ''}`}>
-              <GiftsIcon />
-              {t('v2.header.gifts')}
-            </MenuButton>
-          </Link>
         </Menu>
       </MenuContainer>
       <WalletContainer>
-        {!poolDetailUs && (
-          <MenuButton onClick={() => setOpenProjectCreateModal(true)}>
-            <CreateProjectIcon /> {t('v2.createProject.title')}
-          </MenuButton>
-        )}
-        {poolDetailUs && <ProjectButton poolDetail={poolDetailUs} account={account} />}
         <Wallet account={account} accountIsConnected={accountIsConnected} />
       </WalletContainer>
       {screenWidth > breakpoints.lg && <ProjectCreateModal account={account} poolDetail={poolDetailUs} />}
@@ -84,18 +64,7 @@ export default function LayoutHeader() {
   )
 }
 
-const {
-  Container,
-  MenuContainer,
-  WalletContainer,
-  GiftsIcon,
-  Logo,
-  Menu,
-  MenuButton,
-  InvestIcon,
-  IncentivesIcon,
-  CreateProjectIcon
-} = {
+const { Container, MenuContainer, WalletContainer, Logo, Menu, MenuButton, InvestIcon } = {
   Container: styled.header`
     display: none;
     gap: ${({ theme }) => theme.size[32]};

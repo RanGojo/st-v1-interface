@@ -185,7 +185,7 @@
     "deprecatedMessage": "The beta version is deprecated in favor of final version. The withdrawals are being processed on beacon chain.",
     "pages": {
       "invest": {
-        "title": "Invest with Projects",
+        "title": "Withdrawals",
         "description": "Invest in ethereum staking, support projects, and earn rewards together"
       },
       "deposit": {
@@ -213,7 +213,7 @@
       "acceptTermsOfService": "Accept Terms of Service"
     },
     "header": {
-      "invest": "Invest",
+      "invest": "Withdrawals",
       "incentives": "Incentives",
       "simulator": "Simulator",
       "gifts": "Gifts",

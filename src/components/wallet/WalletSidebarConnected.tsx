@@ -1,10 +1,10 @@
 import WalletSidebarActivities from '@/components/wallet/WalletSidebarActivities'
-import WalletSidebarRewards from '@/components/wallet/WalletSidebarRewards'
+import useVerifyWallet from '@/hooks/contentful/useVerifyWallet'
+import useStwEthBalance from '@/hooks/contracts/useStwEthBalance'
 import useConnectedAccount from '@/hooks/useConnectedAccount'
 import useEns from '@/hooks/useEns'
 import useWalletProviderImage from '@/hooks/useWalletProviderImage'
 import ethIcon from '@assets/icons/eth-icon.svg'
-import stIcon from '@assets/st-symbol.svg'
 import { Drawer, notification } from 'antd'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
@@ -27,16 +27,14 @@ import useLocaleTranslation from '../../hooks/useLocaleTranslation'
 import useWalletSidebar from '../../hooks/useWalletSidebar'
 import { formatNumberByLocale } from '../../services/format'
 import { capitalize, truncateAddress, truncateText, truncateWei } from '../../services/truncate'
+import PanelWalletSidebarPanel from '../project/panel/PanelWalletSidebarPanel'
 import Tabs, { TabsItems } from '../shared/Tabs'
+import Withdrawals from '../shared/Withdrawals'
 import EnsAvatar from '../shared/ens/EnsAvatar'
 import SkeletonLoading from '../shared/icons/SkeletonLoading'
 import WalletBuyEthModal from './WalletBuyEthModal'
 import WalletSidebarPoolsDelegated from './WalletSidebarPoolsDelegated'
 import WalletSidebarSettings from './WalletSidebarSettings'
-import Withdrawals from '../shared/Withdrawals'
-import useStwEthBalance from '@/hooks/contracts/useStwEthBalance'
-import PanelWalletSidebarPanel from '../project/panel/PanelWalletSidebarPanel'
-import useVerifyWallet from '@/hooks/contentful/useVerifyWallet'
 
 type WalletSidebarConnectedProps = {
   address: `0x${string}`
@@ -62,14 +60,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
 
   const { locale } = useRouter()
 
-  const {
-    accountDelegations,
-    accountBalance,
-    accountRewards,
-    accountActivities,
-    accountProfitPercentage,
-    accountTotalRewards
-  } = useStAccount(address)
+  const { accountDelegations, accountBalance, accountActivities } = useStAccount(address)
   function disconnectWallet() {
     setOpenSidebar(false)
     disconnect()
@@ -86,15 +77,6 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
   const onBuyEthIsSuccess = () => {
     refetch()
   }
-
-  const tabRewards: TabsItems[] = [
-    {
-      key: 'rewards',
-      label: t('rewards'),
-      icon: <AnalyticsIcon />,
-      children: <WalletSidebarRewards accountRewards={accountRewards} />
-    }
-  ]
 
   const tabPortfolio: TabsItems[] = [
     {
@@ -204,43 +186,12 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
                 <span>{` ${t('eth.symbol')}`}</span>
               </div>
             </InfoCard>
-            <InfoCard>
-              <h4>
-                {t('invested')} <Image src={stIcon} width={18} height={18} alt={t('lsd.symbol')} />
-              </h4>
-              <div>
-                <span className='purple'>{formatNumberByLocale(truncateWei(accountBalance, 5), locale)}</span>
-                <span className='purple'>{` ${t('lsd.symbol')}`}</span>
-              </div>
-            </InfoCard>
-            <InfoCard>
-              <h4>{t('rewards')}</h4>
-              <div>
-                <span className={`${accountTotalRewards > 1n && 'green'} ${accountTotalRewards < 0 && 'red'}`}>
-                  {`${truncateWei(accountTotalRewards, 4)}`}
-                </span>
-                <span className={`${accountTotalRewards > 1n && 'green'} ${accountTotalRewards < 0 && 'red'}`}>
-                  {` ${t('lsd.symbol')}`}
-                </span>
-              </div>
-            </InfoCard>
-            <InfoCard>
-              <h4>{t('v2.sidebar.percentageProfit')}</h4>
-              <div>
-                <span className={`${accountTotalRewards > 1n && 'green'}`}>
-                  {truncateWei(BigInt(accountProfitPercentage) * BigInt(100), 4)} %
-                </span>
-              </div>
-            </InfoCard>
           </InfoContainer>
           {stwETHBalance > 0n && (
             <Withdrawals balance={stwETHBalance} accountAddress={address} refetchBalance={stwETHRefetch} />
           )}
           <TabsArea>
             <Tabs items={tabPortfolio} defaultActiveKey='portfolio' gray />
-          </TabsArea>
-          <TabsArea>
-            <Tabs items={tabRewards} defaultActiveKey='rewards' gray />
           </TabsArea>
           <TabsArea>
             <Tabs items={tabActivities} defaultActiveKey='activity' gray />
@@ -328,7 +279,7 @@ const {
     gap: ${({ theme }) => theme.size[12]};
 
     @media (min-width: ${({ theme }) => theme.breakpoints.lg}) {
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr;
       gap: ${({ theme }) => theme.size[16]};
     }
   `,
