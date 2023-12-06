@@ -8,7 +8,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
-import { PiCellSignalFull, PiCurrencyEth, PiGift, PiPencilSimpleLine } from 'react-icons/pi'
+import { PiCurrencyEth } from 'react-icons/pi'
 import styled from 'styled-components'
 import stLogoDesktop from '../../../../public/assets/stake-together-desk.svg'
 import useActiveRoute from '../../../hooks/useActiveRoute'
@@ -144,15 +144,6 @@ const { Container, MenuContainer, WalletContainer, Logo, Menu, MenuButton, Inves
     }
   `,
   InvestIcon: styled(PiCurrencyEth)`
-    font-size: 15px;
-  `,
-  IncentivesIcon: styled(PiCellSignalFull)`
-    font-size: 17px;
-  `,
-  GiftsIcon: styled(PiGift)`
-    font-size: 15px;
-  `,
-  CreateProjectIcon: styled(PiPencilSimpleLine)`
     font-size: 15px;
   `
 }

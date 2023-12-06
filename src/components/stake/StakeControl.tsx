@@ -1,14 +1,11 @@
 import usePool from '@/hooks/subgraphs/usePool'
-import usePoolActivities from '@/hooks/subgraphs/usePoolActivities'
 import useLocaleTranslation from '@/hooks/useLocaleTranslation'
 import { truncateWei } from '@/services/truncate'
 import { ContentfulPool } from '@/types/ContentfulPool'
 import { Tooltip } from 'antd'
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
-import { PiArrowDown, PiArrowUp, PiCurrencyEth, PiQuestion, PiShareNetwork } from 'react-icons/pi'
+import { PiArrowUp, PiQuestion, PiShareNetwork } from 'react-icons/pi'
 import styled from 'styled-components'
-import { globalConfig } from '../../config/global'
 import useConnectedAccount from '../../hooks/useConnectedAccount'
 import { formatNumberByLocale } from '../../services/format'
 import Tabs, { TabsItems } from '../shared/Tabs'
@@ -25,47 +22,13 @@ interface StakeControlProps {
 }
 
 export default function StakeControl({ poolAddress, type, poolDetail }: StakeControlProps) {
-  const [tooltipHasOpen, setTooltipHasOpen] = useState(false)
-  const [skipMembers, setSkipMembers] = useState(0)
-  const [skipActivity, setSkipActivity] = useState(0)
-
   const { t } = useLocaleTranslation()
 
   const { query, locale } = useRouter()
 
-  useEffect(() => {
-    setTimeout(() => {
-      setTooltipHasOpen(true)
-    }, 3000)
-    setTimeout(() => {
-      setTooltipHasOpen(false)
-    }, 8000)
-  }, [])
-
   const { currency, network } = query
 
-  const { apy } = globalConfig
-
-  const { pool, initialLoading, loadMoreLoading, fetchMore } = usePool(poolAddress)
-
-  const handleLoadMoreMembers = () => {
-    const newSkip = skipMembers + 10
-    setSkipMembers(newSkip)
-    fetchMore({ id: poolAddress, first: 10, skip: newSkip })
-  }
-
-  const {
-    poolActivities,
-    initialLoading: poolActivitiesLoading,
-    loadingFetchMore: poolActivitiesFetchMoreLoading,
-    loadMore
-  } = usePoolActivities(poolAddress)
-
-  const handleLoadMoreActivity = () => {
-    const newSkip = skipActivity + 10
-    setSkipActivity(newSkip)
-    loadMore({ poolAddress: poolAddress, first: 10, skip: newSkip })
-  }
+  const { pool, initialLoading } = usePool(poolAddress)
 
   const router = useRouter()
   const handleSwitch = (type: string) => {
@@ -223,13 +186,7 @@ const { Container, Form, TvlContainer, QuestionIcon, ShareButton, ShareIcon, Poo
       }
     }
   `,
-  EthIcon: styled(PiArrowDown)`
-    font-size: 15px;
-  `,
   WithdrawIcon: styled(PiArrowUp)`
-    font-size: 15px;
-  `,
-  DexIcon: styled(PiCurrencyEth)`
     font-size: 15px;
   `,
   QuestionIcon: styled(PiQuestion)`

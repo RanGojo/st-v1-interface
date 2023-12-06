@@ -13,7 +13,6 @@ import { FiCopy } from 'react-icons/fi'
 import {
   PiCaretRight,
   PiChalkboardTeacher,
-  PiChartBar,
   PiChartLine,
   PiChartPieSlice,
   PiGear,
@@ -60,7 +59,7 @@ export default function WalletSidebarConnected({ address }: WalletSidebarConnect
 
   const { locale } = useRouter()
 
-  const { accountDelegations, accountBalance, accountActivities } = useStAccount(address)
+  const { accountDelegations, accountActivities } = useStAccount(address)
   function disconnectWallet() {
     setOpenSidebar(false)
     disconnect()
@@ -220,7 +219,6 @@ const {
   WrapperWallet,
   CopyIcon,
   PoolsIcon,
-  AnalyticsIcon,
   ActivitiesIcon,
   TabsArea,
   WalletAddressContainer,
@@ -451,9 +449,6 @@ const {
     }
   `,
   PoolsIcon: styled(PiChartPieSlice)`
-    font-size: 16px;
-  `,
-  AnalyticsIcon: styled(PiChartBar)`
     font-size: 16px;
   `,
   ActivitiesIcon: styled(PiChartLine)`
