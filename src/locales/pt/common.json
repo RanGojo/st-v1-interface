@@ -185,7 +185,7 @@
     "deprecatedMessage": "A versão do beta está descontinuada em favor da versão final. Os saques na beacon chain estão sendo processados.",
     "pages": {
       "invest": {
-        "title": "Investir com Projetos",
+        "title": "Escolha um projeto para sacar",
         "description": "Invista em staking de ethereum, apoie projetos e ganhe recompensas juntos"
       },
       "deposit": {

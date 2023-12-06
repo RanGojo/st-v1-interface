@@ -22,7 +22,7 @@ export default function PoolsCard({ pool, loading }: PoolsCardProps) {
   const { currency, network } = query
 
   return (
-    <Card href={`/${network}/${currency}/invest/deposit/${pool.address}`}>
+    <Card href={`/${network}/${currency}/invest/withdraw/${pool.address}`}>
       <CardHeader>
         {pool.logo?.url && (
           <CommunityLogo size={24} src={pool.logo.url} alt={pool.logo.fileName} loading={loading} />
@@ -45,13 +45,6 @@ export default function PoolsCard({ pool, loading }: PoolsCardProps) {
           <div className='blue'>
             {truncateWei(pool.poolBalance, 6)}
             <span className='blue'>{t('eth.symbol')}</span>
-          </div>
-        </div>
-        <div>
-          <div>{t('v2.pools.list.rewards')}</div>
-          <div className='green'>
-            {truncateWei(pool.totalRewards, 6)}
-            <span className='green'>{t('lsd.symbol')}</span>
           </div>
         </div>
       </CardInfo>
