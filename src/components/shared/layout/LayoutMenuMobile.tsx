@@ -1,10 +1,10 @@
 import useActiveRoute from '@/hooks/useActiveRoute'
 
 import Link from 'next/link'
-import styled from 'styled-components'
-import useLocaleTranslation from '../../../hooks/useLocaleTranslation'
 import { useRouter } from 'next/router'
 import { PiCellSignalFull, PiCurrencyEth, PiGift } from 'react-icons/pi'
+import styled from 'styled-components'
+import useLocaleTranslation from '../../../hooks/useLocaleTranslation'
 function LayoutMenuMobile() {
   const { t } = useLocaleTranslation()
   const { isActive } = useActiveRoute()
@@ -20,7 +20,7 @@ function LayoutMenuMobile() {
         <InvestIcon />
         {t('v2.header.invest')}
       </NextLink>
-      <NextLink
+      {/* <NextLink
         href={`/${network}/${currency}/incentives`}
         className={`${isActive('incentives') ? 'active' : ''}`}
       >
@@ -30,7 +30,7 @@ function LayoutMenuMobile() {
       <NextLink href={`/${network}/${currency}/gifts`} className={`${isActive('gifts') ? 'active' : ''}`}>
         <GiftsIcon />
         {t('v2.header.gifts')}
-      </NextLink>
+      </NextLink> */}
     </Container>
   )
 }
