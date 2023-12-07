@@ -182,7 +182,7 @@
     }
   },
   "v2": {
-    "deprecatedMessage": "A versão do beta está descontinuada em favor da versão final. Os saques na beacon chain estão sendo processados.",
+    "deprecatedMessage": "A versão do beta está descontinuada em favor da versão mainnet. Os saques na beacon chain estão sendo processados. Suporte no discord.",
     "pages": {
       "invest": {
         "title": "Escolha um projeto para sacar",

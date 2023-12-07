@@ -20,22 +20,11 @@ function LayoutMenuMobile() {
         <InvestIcon />
         {t('v2.header.invest')}
       </NextLink>
-      {/* <NextLink
-        href={`/${network}/${currency}/incentives`}
-        className={`${isActive('incentives') ? 'active' : ''}`}
-      >
-        <IncentivesIcon />
-        {t('v2.header.incentives')}
-      </NextLink>
-      <NextLink href={`/${network}/${currency}/gifts`} className={`${isActive('gifts') ? 'active' : ''}`}>
-        <GiftsIcon />
-        {t('v2.header.gifts')}
-      </NextLink> */}
     </Container>
   )
 }
 
-const { Container, NextLink, InvestIcon, IncentivesIcon, GiftsIcon } = {
+const { Container, NextLink, InvestIcon } = {
   Container: styled.nav`
     width: 100vw;
     position: fixed;
