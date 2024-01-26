@@ -1,4 +1,4 @@
-import { goerli } from 'viem/chains'
+import { avalanche } from 'viem/chains'
 import { configureChains, createConfig } from 'wagmi'
 import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
 import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
@@ -7,13 +7,14 @@ import { publicProvider } from 'wagmi/providers/public'
 import Web3AuthConnectorInstance from './web3Auth'
 
 const { chains, publicClient } = configureChains(
-  [goerli],
+  [avalanche],
   [
     jsonRpcProvider({
       rpc: () => ({
         http: `${process.env.NEXT_PUBLIC_RPC_GOERLI}`
       })
     }),
+
     publicProvider()
   ],
   {

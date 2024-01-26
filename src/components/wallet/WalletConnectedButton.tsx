@@ -22,7 +22,7 @@ export default function WalletConnectedButton({ address }: WalletConnectedButton
 
   const chain = chainConfig()
   const { chain: walletChainId } = useNetwork()
-  const isWrongNetwork = chain.chainId !== walletChainId?.id
+  const isWrongNetwork = chain.chainId == walletChainId?.id
   const { switchNetworkAsync } = useSwitchNetwork({
     chainId: chain.chainId
   })
