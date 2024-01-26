@@ -9,94 +9,93 @@ import { erc20ABI, useAccount, usePrepareContractWrite, useSendTransaction } fro
 import LayoutTemplate from '../../../../components/shared/layout/LayoutTemplate'
 
 export default function Swap() {
-  const { address } = useAccount()
-  const { list } = useAssetsList()
-  const { quote, handleQuoteAssets, clearQuote } = useQuoteAssets()
-  const [from, setFrom] = useState<string>()
-  const [to, setTo] = useState<string>()
-  const [amount, setAmount] = useState<string>('0')
-  const { config } = usePrepareContractWrite({
-    address: quote?.router ?? '0x0000000000000000000000000000',
-    abi: erc20ABI,
-    functionName: 'transferFrom',
-    args: [address || '0x', BigInt(amount)],
-    data: quote?.memo,
-    enabled: !!(quote?.memo && amount && address)
-  })
+    const { address } = useAccount()
+    const { list } = useAssetsList()
+    const { quote, handleQuoteAssets, clearQuote } = useQuoteAssets()
+    const [from, setFrom] = useState<string>()
+    const [to, setTo] = useState<string>()
+    const [amount, setAmount] = useState<string>('0')
+    const { config } = usePrepareContractWrite({
+        address: quote?.router ?? '0x0000000000000000000000000000',
+        abi: erc20ABI,
+        functionName: 'transferFrom',
+        args: [address || '0x', quote?.router || '0x', BigInt(amount)],
+        enabled: !!(quote?.memo && amount && address)
+    })
 
-  const tx = useSendTransaction({
-    ...config,
-    onError: error => console.log('falhou', error),
-    onSuccess: success => console.log('success', success)
-  })
+    const tx = useSendTransaction({
+        ...config,
+        onError: error => console.log('falhou', error),
+        onSuccess: success => console.log('success', success)
+    })
 
-  const handleChangeTokenFrom = (event: { target: { value: string } }) => {
-    clearQuote()
-    setFrom(event.target.value)
-  }
-
-  const handleChangeTokenTo = (event: { target: { value: string } }) => {
-    clearQuote()
-    setTo(event.target.value)
-  }
-
-  const handleQuote = () => {
-    console.log(from, to, amount, address)
-    if (from && to && amount) {
-      handleQuoteAssets(from, to, amount, address)
+    const handleChangeTokenFrom = (event: { target: { value: string } }) => {
+        clearQuote()
+        setFrom(event.target.value)
     }
-  }
 
-  const handleAmount = (value: string) => {
-    value && console.log(ethers.parseUnits(value, 8).toString())
-    setAmount(ethers.parseUnits(value, 8).toString())
-  }
+    const handleChangeTokenTo = (event: { target: { value: string } }) => {
+        clearQuote()
+        setTo(event.target.value)
+    }
 
-  const handleSwap = () => {
-    console.log('call')
-    tx.sendTransaction?.()
-  }
+    const handleQuote = () => {
+        console.log(from, to, amount, address)
+        if (from && to && amount) {
+            handleQuoteAssets(from, to, amount, address)
+        }
+    }
 
-  return (
-    <LayoutTemplate>
-      <Container>
-        <TokenContainer>
-          <span>From</span>
-          <select onChange={handleChangeTokenFrom}>
-            {list?.map(item => <option key={item.asset}>{item.asset}</option>)}
-          </select>
-        </TokenContainer>
-        <TokenContainer>
-          <span>to</span>
-          <select onChange={handleChangeTokenTo}>
-            {list?.map(item => <option key={item.asset}>{item.asset}</option>)}
-          </select>
-        </TokenContainer>
-        <span>Amount</span>
-        <input
-          placeholder='0'
-          name='value'
-          type='number'
-          onChange={({ target }) => handleAmount(target.value)}
-        />
-        <ActionContainer>
-          <button onClick={handleQuote}>Get value</button>
-          {quote?.expected_amount_out && (
-            <button className='confirm' onClick={handleSwap}>
-              Confirm
-            </button>
-          )}
-        </ActionContainer>
-        {quote?.expected_amount_out && (
-          <span>Out {ethers.formatUnits(BigInt(quote?.expected_amount_out), 'gwei')}</span>
-        )}
-      </Container>
-    </LayoutTemplate>
-  )
+    const handleAmount = (value: string) => {
+        value && console.log(ethers.parseUnits(value, 8).toString())
+        setAmount(ethers.parseUnits(value, 8).toString())
+    }
+
+    const handleSwap = () => {
+        console.log('call')
+        tx.sendTransaction?.()
+    }
+
+    return (
+        <LayoutTemplate>
+            <Container>
+                <TokenContainer>
+                    <span>From</span>
+                    <select onChange={handleChangeTokenFrom}>
+                        {list?.map(item => <option key={item.asset}>{item.asset}</option>)}
+                    </select>
+                </TokenContainer>
+                <TokenContainer>
+                    <span>to</span>
+                    <select onChange={handleChangeTokenTo}>
+                        {list?.map(item => <option key={item.asset}>{item.asset}</option>)}
+                    </select>
+                </TokenContainer>
+                <span>Amount</span>
+                <input
+                    placeholder='0'
+                    name='value'
+                    type='number'
+                    onChange={({ target }) => handleAmount(target.value)}
+                />
+                <ActionContainer>
+                    <button onClick={handleQuote}>Get value</button>
+                    {quote?.expected_amount_out && (
+                        <button className='confirm' onClick={handleSwap}>
+                            Confirm
+                        </button>
+                    )}
+                </ActionContainer>
+                {quote?.expected_amount_out && (
+                    <span>Out {ethers.formatUnits(BigInt(quote?.expected_amount_out), 'gwei')}</span>
+                )}
+            </Container>
+        </LayoutTemplate>
+    )
 }
 
 const { Container, TokenContainer, ActionContainer } = {
-  Container: styled.div`
+    Container: styled.div`
     width: 50%;
     display: flex;
     flex-direction: column;
@@ -125,7 +124,7 @@ const { Container, TokenContainer, ActionContainer } = {
       font-weight: 400;
     }
   `,
-  TokenContainer: styled.div`
+    TokenContainer: styled.div`
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -153,7 +152,7 @@ const { Container, TokenContainer, ActionContainer } = {
       font-weight: 400;
     }
   `,
-  ActionContainer: styled.div`
+    ActionContainer: styled.div`
     display: flex;
     gap: 8px;
     > .confirm {
@@ -165,9 +164,9 @@ const { Container, TokenContainer, ActionContainer } = {
 }
 
 export const getServerSideProps: GetServerSideProps = async context => {
-  return {
-    props: {
-      ...(await serverSideTranslations(context.locale || 'en', ['common']))
+    return {
+        props: {
+            ...(await serverSideTranslations(context.locale || 'en', ['common']))
+        }
     }
-  }
 }
